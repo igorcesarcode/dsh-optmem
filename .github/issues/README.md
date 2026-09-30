@@ -45,7 +45,7 @@ milestone: "M1 — Fundação"
 | 15 | [orcamento-com-token-meter](15-orcamento-com-token-meter.md) | M3 |
 | 16 | [colheita-na-compactacao](16-colheita-na-compactacao.md) | M3 |
 | 17 | [aba-nativa](17-painel-web.md) | M4 |
-| 18 | [config-e-i18n-na-gui](18-config-e-i18n-na-gui.md) | M4 |
+| 18 | [cartao-de-configuracao](18-config-e-i18n-na-gui.md) | M4 |
 | 19 | [prototipo-do-bundle-de-cliente](19-spike-client-plugin.md) | M4 |
 | 20 | [proveniencia-e-invariantes](20-proveniencia-e-invariantes.md) | M5 |
 | 21 | [aprovacao-na-escrita](21-aprovacao-na-escrita.md) | M5 |
@@ -56,6 +56,10 @@ milestone: "M1 — Fundação"
 | 26 | [publicacao-no-npm](26-publicacao-no-npm.md) | M6 |
 | 27 | [ledger-ao-vivo](27-ledger-ao-vivo.md) | M4 |
 | 28 | [rota-e-erros-da-compressao](28-rota-e-erros-da-compressao.md) | M3 |
+
+> **Nota:** renomear o `title` de um arquivo faz o script criar uma issue nova em
+> vez de atualizar a existente. Quando isso acontecer, feche a antiga apontando para
+> a nova (#19 → #29 é o precedente) e ajuste o título aqui.
 
 ## Milestones
 
