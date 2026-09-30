@@ -52,5 +52,5 @@ do v1).
 
 ## Referências
 
-- [ADR-0004](../blob/main/docs/adr/0004-proveniencia-obrigatoria.md)
-- [spec 12 — observabilidade](../blob/main/docs/spec/12-observabilidade.md)
+- [ADR-0004](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0004-proveniencia-obrigatoria.md)
+- [spec 12 — observabilidade](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/12-observabilidade.md)

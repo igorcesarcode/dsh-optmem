@@ -58,5 +58,5 @@ A cobertura (item 03) e a re-injeção após compactação (item 14).
 
 ## Referências
 
-- [spec 06 — compressão](../blob/main/docs/spec/06-compressao.md)
-- [ADR-0002](../blob/main/docs/adr/0002-compressao-server-side.md)
+- [spec 06 — compressão](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/06-compressao.md)
+- [ADR-0002](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0002-compressao-server-side.md)

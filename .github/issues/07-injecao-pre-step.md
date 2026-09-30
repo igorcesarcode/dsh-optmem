@@ -53,5 +53,5 @@ reação à compactação (item 14), e o escopo por subagente (item 09).
 
 ## Referências
 
-- [spec 04 — injeção](../blob/main/docs/spec/04-injecao.md)
-- [ADR-0003](../blob/main/docs/adr/0003-injecao-programatica.md)
+- [spec 04 — injeção](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/04-injecao.md)
+- [ADR-0003](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0003-injecao-programatica.md)

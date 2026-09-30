@@ -50,4 +50,4 @@ projeto estiver em `0.x`.
 
 ## Referências
 
-- [spec 14 — release](../blob/main/docs/spec/14-release.md)
+- [spec 14 — release](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/14-release.md)

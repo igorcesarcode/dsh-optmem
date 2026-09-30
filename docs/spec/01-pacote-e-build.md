@@ -82,6 +82,14 @@ detalhe fica em um módulo só — que é a camada de adaptação do item 24.
 - **`dsh.bundle.patch`** é o que faz `dsh plugin add` montar o plugin. Sem ele, a
   instalação é silenciosamente inerte — o modo de falha mais caro de diagnosticar.
 - **`dsh.client`** só existe porque o requisito inclui a aba nativa (spec 11).
+  `platform` tem de ser exatamente `"web"`: qualquer outro valor faz o pacote ser
+  ignorado **em silêncio** pela varredura de cliente.
+- A metade browser só pode pedir módulos da **tabela semente** (`react`,
+  `react/jsx-runtime`, `react-dom`, `react-dom/client`, `@deepseek-ai/cordis`,
+  `dsh-client-store`, `dsh-client-ui-slots`, `dsh-client-ui-primitives`,
+  `dsh-client-ui-dockkit`) ou de outras linhas do grafo. O resto vai em
+  `dsh.client.external` e precisa de um fornecedor — pedido inválido, fornecedor
+  ausente, auto-pedido e ciclo síncrono são rejeitados na composição.
 - `peerDependencies` usam `*` na fase RC e são apertadas na matriz de release
   (spec 14). `dependencies` não contém nenhum pacote do harness.
 

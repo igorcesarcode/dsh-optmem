@@ -47,4 +47,4 @@ Testes de integração com o harness (item 12). Este item é puramente determin�
 
 ## Referências
 
-- [spec 13 — testes](../blob/main/docs/spec/13-testes.md)
+- [spec 13 — testes](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/13-testes.md)

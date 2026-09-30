@@ -54,4 +54,4 @@ Documentação de API interna. O código é a documentação das partes internas
 
 ## Referências
 
-- [spec 14 — release](../blob/main/docs/spec/14-release.md)
+- [spec 14 — release](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/14-release.md)

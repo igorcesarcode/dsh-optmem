@@ -50,5 +50,5 @@ A escolha de quais blocos entram (item 03) e a injeção no histórico (item 07)
 
 ## Referências
 
-- [spec 03 — wake e cover](../blob/main/docs/spec/03-wake-e-cover.md)
-- [spec 09 — segurança](../blob/main/docs/spec/09-seguranca.md)
+- [spec 03 — wake e cover](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/03-wake-e-cover.md)
+- [spec 09 — segurança](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/09-seguranca.md)

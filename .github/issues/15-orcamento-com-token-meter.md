@@ -50,5 +50,5 @@ específico do provedor do usuário.
 
 ## Referências
 
-- [spec 03 — wake e cover](../blob/main/docs/spec/03-wake-e-cover.md)
-- [spec 12 — observabilidade](../blob/main/docs/spec/12-observabilidade.md)
+- [spec 03 — wake e cover](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/03-wake-e-cover.md)
+- [spec 12 — observabilidade](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/12-observabilidade.md)

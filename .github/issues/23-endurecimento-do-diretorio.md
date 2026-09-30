@@ -56,6 +56,6 @@ Detecção de adulteração do log (spec 09, C7) e criptografia em repouso (spec
 
 ## Referências
 
-- [ADR-0005](../blob/main/docs/adr/0005-plugin-e-o-unico-escritor.md)
-- [spec 02 — store](../blob/main/docs/spec/02-store.md)
-- [spec 09 — segurança](../blob/main/docs/spec/09-seguranca.md)
+- [ADR-0005](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0005-plugin-e-o-unico-escritor.md)
+- [spec 02 — store](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/02-store.md)
+- [spec 09 — segurança](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/09-seguranca.md)

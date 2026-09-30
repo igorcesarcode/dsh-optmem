@@ -56,4 +56,4 @@ Criptografia em repouso (spec 10, P5 — v2) e qualquer promessa de anonimato.
 
 ## Referências
 
-- [spec 10 — privacidade](../blob/main/docs/spec/10-privacidade.md)
+- [spec 10 — privacidade](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/10-privacidade.md)

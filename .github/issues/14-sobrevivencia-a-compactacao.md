@@ -17,7 +17,7 @@ bastante para precisar dela.
 `SessionStartSource` mas **não tem emissor** no harness publicado — os únicos call
 sites passam `'startup'` e `'resume'`. Também não existe evento cordis em volta da
 compactação: `compaction/*` são eventos de sessão. Ver
-[research/README](../blob/main/docs/research/README.md), "achados que mudaram
+[research/README](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/README.md), "achados que mudaram
 decisões".
 
 ## Escopo
@@ -67,5 +67,5 @@ não a substitui.
 
 ## Referências
 
-- [spec 07 — compactação](../blob/main/docs/spec/07-compaction.md)
-- [research/03 — lifecycle, injeção e compactação](../blob/main/docs/research/03-lifecycle-injection-compaction.md)
+- [spec 07 — compactação](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/07-compaction.md)
+- [research/03 — lifecycle, injeção e compactação](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/03-lifecycle-injection-compaction.md)

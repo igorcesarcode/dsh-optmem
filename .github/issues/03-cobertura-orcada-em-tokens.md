@@ -54,5 +54,5 @@ entrega a função de cobertura e a de enfileiramento como interface.
 
 ## Referências
 
-- [spec 03 — wake e cover](../blob/main/docs/spec/03-wake-e-cover.md)
-- [ADR-0006](../blob/main/docs/adr/0006-sem-embeddings-no-v1.md)
+- [spec 03 — wake e cover](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/03-wake-e-cover.md)
+- [ADR-0006](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0006-sem-embeddings-no-v1.md)

@@ -39,8 +39,18 @@ Regras derivadas:
 - **R1.** A aba é uma entrada de slot com `id` estável, `order` configurável e
   `label` vindo do serviço de locale. O registro usa o wrapper de efeito do serviço
   de slots, para que o unload do plugin remova a aba.
-- **R2.** O plugin é **um pacote** com duas metades, não dois pacotes: a metade host
-  e a metade browser compartilham versão, configuração e ciclo de vida.
+- **R2.** O plugin é distribuído como **um pacote que declara as duas faces**
+  (`dsh.bundle.patch` para ser montado como camada de perfil, e `dsh.client` para
+  ter a metade browser). A convenção do harness é **dois** pacotes separados — o
+  `dsh-tool-todo` e o `dsh-client-ui-tool` não têm aresta de dependência entre si e
+  se encontram só por string e por evento de sessão —, mas isso existe para
+  permitir que a UI de uma tool seja trocada sem trocar a tool. Aqui as duas metades
+  são a mesma funcionalidade e não faz sentido versioná-las em separado.
+  
+  A descoberta de cliente é por `package.json`, então as duas faces no mesmo pacote
+  são legítimas em princípio; **o protótipo (issue 19) decide**, porque não existe
+  exemplo publicado de pacote com as duas. Se falhar, cai para o padrão de dois
+  pacotes sem mudar mais nada do desenho.
 - **R3.** A metade browser não contém lógica de memória. Ela projeta eventos e
   chama a metade host. Duas implementações da mesma regra divergem.
 - **R4.** O bundle de cliente é **construído e commitado como artefato de build**

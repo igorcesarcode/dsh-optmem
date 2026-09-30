@@ -135,6 +135,43 @@ do repositório. O formato exato — externos emitidos como chamadas `require()`
 trailer de sourcemap — precisa ser reproduzido e provado por um protótipo **antes**
 de o painel virar compromisso de entrega.
 
+### 5. Formato do bundle (o que precisa ser reproduzido)
+
+Verificado em [02-client-web-kit.md](02-client-web-kit.md) §3.2. O bundle é um
+artefato lazy-CJS que se registra no carregador da página:
+
+```js
+window.__ModuleLoader__.load({
+  id: "<nome exato do pacote>",          // tem de ser o nome do pacote
+  factory: (require) => { /* … */ return { apply, inject } },
+})
+```
+
+- **Externos** só podem ser resolvidos contra a tabela semente de nove entradas
+  (`react`, `react/jsx-runtime`, `react-dom`, `react-dom/client`,
+  `@deepseek-ai/cordis`, `dsh-client-store`, `dsh-client-ui-slots`,
+  `dsh-client-ui-primitives`, `dsh-client-ui-dockkit`) ou contra outras linhas do
+  grafo. Qualquer outro pedido é recusado na composição.
+- **CSS** entra como `<style data-plugin data-plugin-css>`.
+- A página recebe `window.__DSH_BOOT__` com o grafo de entradas, e os bundles são
+  servidos sob `/plugins` com URL imutável e revisão.
+- `dsh.client.platform` tem de ser exatamente `"web"`, senão o pacote é
+  **silenciosamente ignorado**.
+
+Nada disso é publicado como preset: o `clientBundle` do harness vive no monorepo.
+
+### 6. Convenção de empacotamento
+
+O harness distribui host e cliente como **dois pacotes separados** — o
+`dsh-tool-todo` (a tool) e o `dsh-client-ui-tool` (a UI) não têm aresta de
+dependência entre si e se encontram apenas por string e por evento de sessão.
+
+Isso existe para permitir trocar a UI de uma tool sem trocar a tool. Para este
+projeto, as duas metades são a **mesma** funcionalidade, então o ADR-0007 decide
+por um pacote que declara as duas faces — com o protótipo (issue 19) como árbitro,
+já que não há exemplo publicado de pacote com `dsh.bundle.patch` e `dsh.client`
+juntos.
+
 ## Ajuste de rota
 
 O settings de terceiro **é** suportado por desenho declarado: *"Keying on the

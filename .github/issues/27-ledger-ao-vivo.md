@@ -64,5 +64,5 @@ na spec 11, não como bug.
 
 ## Referências
 
-- [spec 11 — web](../blob/main/docs/spec/11-web.md)
-- [spec 12 — observabilidade](../blob/main/docs/spec/12-observabilidade.md)
+- [spec 11 — web](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/11-web.md)
+- [spec 12 — observabilidade](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/12-observabilidade.md)

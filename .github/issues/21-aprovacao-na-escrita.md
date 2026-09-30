@@ -53,5 +53,5 @@ o conteúdo é justamente a parte que pode ser enganosa.
 
 ## Referências
 
-- [spec 09 — segurança](../blob/main/docs/spec/09-seguranca.md)
-- [ADR-0004](../blob/main/docs/adr/0004-proveniencia-obrigatoria.md)
+- [spec 09 — segurança](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/09-seguranca.md)
+- [ADR-0004](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0004-proveniencia-obrigatoria.md)

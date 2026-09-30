@@ -107,12 +107,20 @@ fluxo de eventos: a lista completa de 100.000 memórias não pertence a um fluxo
 
 ## Configuração na GUI
 
-O plugin registra seu namespace de configuração no host e seu cartão sob essa
-chave no browser. Isso é o caminho declarado para plugins distribuídos fora do
-repositório.
+**A configuração não é renderizada automaticamente a partir do schema.** A aba de
+plugins despacha um slot por namespace, e um namespace que nenhum cartão reivindica
+**não renderiza nada** — os controles dos pacotes publicados são escritos à mão.
+Isso está verificado em [research/02](../research/02-client-web-kit.md) §4, e
+contraria a suposição confortável de que bastaria declarar `Config`.
 
-- Todos os campos do schema aparecem com descrição e padrão, gerados do schema —
-  sem lista duplicada escrita à mão.
+O que existe a nosso favor: o `SettingsDescriptor.schema` **está no fio**, e há uma
+API de schema (reidratação, validação, acesso por caminho) que permite escrever um
+formulário genérico. Então o desenho é:
+
+- O plugin **entrega o próprio cartão**, registrado sob o seu namespace.
+- O cartão é **genérico**, dirigido pelo schema: cada campo com descrição e padrão
+  vindos do schema, sem lista duplicada escrita à mão. Isso evita a divergência
+  entre schema e formulário, que é o modo de falha real.
 - Um controle deslizante para `wake.budgetTokens` com **estimativa viva** para o
   store atual: o usuário vê a consequência antes de aplicar.
 - As demais opções são editáveis mas marcadas como "de instalação": mudá-las é uma
@@ -120,11 +128,19 @@ repositório.
 
 ## i18n
 
-- Strings da aba e das mensagens visíveis ao usuário em **pt-BR, en e zh**.
+- Os locales embutidos do harness são exatamente **`zh` e `en`**; `zh` é a fonte de
+  verdade do conjunto de chaves. O harness suporta pacotes de idioma externos
+  (`addLanguage`), e é por aí que **pt-BR** entra, se disponível.
+- Consequência de projeto: as chaves de `en` e `zh` são obrigatórias; `pt-BR` é
+  adicional e não pode ser a única fonte de uma chave.
+- Cada registro de slot carrega o seu namespace de locale; sem a face de locale o
+  harness falha na montagem do slot.
 - As mensagens que o **modelo** vê ficam em inglês, como as demais mensagens de
   ferramenta do harness. O histórico é mais fácil de auditar com uma língua só
   para metadados.
-- `README.md`, `README.zh.md` e o arquivo de tradução, na convenção dos pacotes.
+- `README.md` e `README.zh.md` na convenção dos pacotes. O `README.i18n.yaml` é
+  registro de hash de blob para ferramenta de documentação — **não** é bundle de
+  strings e não é lido em runtime.
 
 ## O que a aba não é
 

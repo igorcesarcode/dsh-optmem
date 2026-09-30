@@ -17,9 +17,9 @@ O mecanismo está decidido e verificado: as abas são entradas no slot
 `conversation.view`, e "Chat" é apenas a entrada padrão resolvida por
 `resolveActiveView`. O Trajectory registra a dele exatamente assim
 (`dsh-client-ui-trajectory/lib/client.js`). Ver ADR-0007 e
-[research/04](../blob/main/docs/research/04-superficie-cliente-e-aba.md).
+[research/04](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/04-superficie-cliente-e-aba.md).
 
-**Este item é bloqueado por [#19](19-spike-client-plugin.md)** enquanto o formato de
+**Este item é bloqueado por [#20](https://github.com/igorcesarcode/dsh-optmem/issues/20)** enquanto o formato de
 bundle de cliente não estiver provado: o host só serve bundle já construído, e o
 preset de build do harness não é publicado.
 
@@ -65,5 +65,5 @@ O ledger ao vivo (item 27), a configuração na GUI (item 18) e o protótipo de 
 
 ## Referências
 
-- [spec 11 — web](../blob/main/docs/spec/11-web.md)
-- [ADR-0007](../blob/main/docs/adr/0007-superficie-web.md)
+- [spec 11 — web](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/11-web.md)
+- [ADR-0007](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0007-superficie-web.md)

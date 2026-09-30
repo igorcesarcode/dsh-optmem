@@ -10,7 +10,7 @@ Primeiro tijolo: um pacote publicável que o DSH consegue carregar. Sem isso nad
 mais pode ser testado dentro do harness.
 
 Quatro fatos do levantamento definem este item
-([research/01](../blob/main/docs/research/01-server-plugin-kit.md)):
+([research/01](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/01-server-plugin-kit.md)):
 
 1. **`dsh.bundle.patch` é obrigatório para montar.** O campo `dsh` não é necessário
    para o loader importar o pacote, mas `dsh plugin add` só promove o pacote a
@@ -74,5 +74,5 @@ Nenhuma. É a base de todas as outras.
 
 ## Referências
 
-- [spec 01 — pacote e build](../blob/main/docs/spec/01-pacote-e-build.md)
-- [spec 14 — release](../blob/main/docs/spec/14-release.md)
+- [spec 01 — pacote e build](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/01-pacote-e-build.md)
+- [spec 14 — release](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/14-release.md)

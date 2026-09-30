@@ -50,5 +50,5 @@ novo.
 
 ## Referências
 
-- [spec 05 — tools](../blob/main/docs/spec/05-tools.md)
-- [spec 12 — observabilidade](../blob/main/docs/spec/12-observabilidade.md)
+- [spec 05 — tools](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/05-tools.md)
+- [spec 12 — observabilidade](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/12-observabilidade.md)

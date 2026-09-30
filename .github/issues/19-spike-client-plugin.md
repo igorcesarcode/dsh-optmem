@@ -32,9 +32,28 @@ painel virar compromisso de entrega.
 
 ## Escopo
 
-- Reproduzir o formato lazy-CJS: wrapper de fábrica, externos emitidos como
-  chamadas `require()`, `id` igual ao nome do pacote, convenção de tag de CSS,
-  trailer de sourcemap.
+O alvo concreto do formato, verificado em
+[research/02 §3.2](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/02-client-web-kit.md):
+
+```js
+window.__ModuleLoader__.load({
+  id: "<nome exato do pacote>",          // tem de ser o nome do pacote
+  factory: (require) => { /* … */ return { apply, inject } },
+})
+```
+
+- Reproduzir o wrapper lazy-CJS, com `id` igual ao nome do pacote.
+- Externos resolvidos **apenas** contra a tabela semente de nove entradas
+  (`react`, `react/jsx-runtime`, `react-dom`, `react-dom/client`,
+  `@deepseek-ai/cordis`, `dsh-client-store`, `dsh-client-ui-slots`,
+  `dsh-client-ui-primitives`, `dsh-client-ui-dockkit`) ou contra outras linhas do
+  grafo.
+- CSS como `<style data-plugin data-plugin-css>`.
+- `dsh.client.platform` exatamente `"web"` — qualquer outro valor faz o pacote ser
+  ignorado em silêncio.
+- Decidir entre **um pacote com as duas faces** (`dsh.bundle.patch` + `dsh.client`)
+  e **dois pacotes**, já que a convenção do harness é dois e não há exemplo
+  publicado de um só.
 - Produzir um bundle mínimo que **carregue na GUI** e registre uma aba vazia no
   slot `conversation.view` — nada além de aparecer.
 - Documentar a receita de build no repositório, de forma reproduzível.
@@ -65,6 +84,6 @@ Qualquer conteúdo real na aba (item 17).
 
 ## Referências
 
-- [ADR-0007](../blob/main/docs/adr/0007-superficie-web.md)
-- [research/02 — §6](../blob/main/docs/research/02-client-web-kit.md)
-- [research/04](../blob/main/docs/research/04-superficie-cliente-e-aba.md)
+- [ADR-0007](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0007-superficie-web.md)
+- [research/02 — §6](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/02-client-web-kit.md)
+- [research/04](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/research/04-superficie-cliente-e-aba.md)

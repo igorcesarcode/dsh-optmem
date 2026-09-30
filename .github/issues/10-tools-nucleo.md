@@ -53,4 +53,4 @@ Uma tool que responde "invalid input" obriga o agente a adivinhar.
 
 ## Referências
 
-- [spec 05 — tools](../blob/main/docs/spec/05-tools.md)
+- [spec 05 — tools](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/05-tools.md)

@@ -51,4 +51,4 @@ de segurança, não o mecanismo principal.
 
 ## Referências
 
-- [spec 07 — compactação](../blob/main/docs/spec/07-compaction.md)
+- [spec 07 — compactação](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/07-compaction.md)

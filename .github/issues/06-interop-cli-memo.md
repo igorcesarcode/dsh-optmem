@@ -49,5 +49,5 @@ Invocar a CLI em runtime. O plugin **nunca** executa `python3` (ADR-0005).
 
 ## Referências
 
-- [spec 02 — store](../blob/main/docs/spec/02-store.md)
-- [ADR-0005](../blob/main/docs/adr/0005-plugin-e-o-unico-escritor.md)
+- [spec 02 — store](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/02-store.md)
+- [ADR-0005](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0005-plugin-e-o-unico-escritor.md)

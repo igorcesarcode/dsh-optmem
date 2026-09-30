@@ -54,4 +54,4 @@ Testes de custo (spec 13, camada 6) e testes de segurança (item 20–23).
 
 ## Referências
 
-- [spec 13 — testes](../blob/main/docs/spec/13-testes.md)
+- [spec 13 — testes](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/13-testes.md)

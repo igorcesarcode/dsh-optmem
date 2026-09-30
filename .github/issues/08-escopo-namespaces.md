@@ -51,4 +51,4 @@ usuários.
 
 ## Referências
 
-- [spec 08 — escopo](../blob/main/docs/spec/08-escopo-e-subagentes.md)
+- [spec 08 — escopo](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/08-escopo-e-subagentes.md)

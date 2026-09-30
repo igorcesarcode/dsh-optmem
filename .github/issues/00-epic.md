@@ -20,9 +20,9 @@ corrigindo os quatro pontos que o projeto original deixou em aberto:
 
 ## Especificação
 
-- Visão geral: [`docs/spec/00-overview.md`](../blob/main/docs/spec/00-overview.md)
-- Decisões: [`docs/adr/`](../tree/main/docs/adr)
-- Levantamento do harness: [`docs/research/`](../tree/main/docs/research)
+- Visão geral: [`docs/spec/00-overview.md`](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/00-overview.md)
+- Decisões: [`docs/adr/`](https://github.com/igorcesarcode/dsh-optmem/tree/main/docs/adr)
+- Levantamento do harness: [`docs/research/`](https://github.com/igorcesarcode/dsh-optmem/tree/main/docs/research)
 
 ## Resultado esperado
 
@@ -45,11 +45,11 @@ Mecanismo verificado: as abas são entradas no slot `conversation.view` do pacot
 conversa, e o código de cliente é entregue por um pacote de duas metades
 (`dsh.client` + `platform: "web"` + export `./client`). A descoberta é
 Loader-driven e relativa ao pacote — **sem fork do harness**.
-Ver [ADR-0007](../blob/main/docs/adr/0007-superficie-web.md) e
-[spec 11](../blob/main/docs/spec/11-web.md).
+Ver [ADR-0007](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0007-superficie-web.md) e
+[spec 11](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/11-web.md).
 
 O custo real é de build: o preset que emite o bundle de cliente não é publicado, e
-o host nunca constrói. Por isso o protótipo de formato ([#19](../../issues/19))
+o host nunca constrói. Por isso o protótipo de formato ([#20](https://github.com/igorcesarcode/dsh-optmem/issues/20))
 bloqueia a aba — a viabilidade arquitetural está decidida, o esforço não.
 
 ## Fases

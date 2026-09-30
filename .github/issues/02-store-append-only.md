@@ -52,5 +52,5 @@ com padding de espaços, anexados sob lock exclusivo.
 
 ## Referências
 
-- [spec 02 — store](../blob/main/docs/spec/02-store.md)
-- [ADR-0001](../blob/main/docs/adr/0001-log-append-only-de-largura-fixa.md)
+- [spec 02 — store](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/spec/02-store.md)
+- [ADR-0001](https://github.com/igorcesarcode/dsh-optmem/blob/main/docs/adr/0001-log-append-only-de-largura-fixa.md)
