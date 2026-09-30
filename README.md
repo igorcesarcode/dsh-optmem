@@ -73,6 +73,39 @@ Loader-driven e relativa ao pacote, e as abas são entradas no slot
 `conversation.view` — "Chat" é apenas a entrada padrão
 ([evidência](docs/research/04-superficie-cliente-e-aba.md)).
 
+### Instalado não é o mesmo que ativo
+
+Manter a memória no disco e não querer que o agente a receba agora são coisas
+diferentes — durante um trabalho sob confidencialidade diferente, um debug, ou um
+ajuste de configuração. O plugin tem uma **chave de ativação** na GUI, separada da
+instalação:
+
+- **inativo** = sem injeção, sem compressão, sem chamada de modelo, tools avisando
+  como ativar — e **o store intocado**, nada apagado nem recomputado;
+- a aba continua acessível e diz "inativo", em vez de parecer vazia.
+
+A chave é configuração do plugin, não mutação do Loader: a projeção de inventário do
+harness é explicitamente somente-leitura.
+
+### Qual modelo comprime a memória
+
+A compressão tem **rota própria**, independente da conversa, porque é o único lugar
+do sistema que gasta dinheiro em escala e o que menos exige do modelo. O padrão é
+**herdar a rota da sessão**; a configuração permite escolher outro provedor, modelo e
+nível de raciocínio.
+
+A UI é a mesma do subagente: lista agrupada por provedor, descrições vindas do
+catálogo vivo, e **effort derivado do modelo** — sem entrada de texto livre, porque o
+harness rejeita effort não suportado sem clamp nem alias. Rotas salvas que sumiram do
+catálogo aparecem no fim e continuam removíveis.
+
+E o tratamento de erro das APIs é **nosso**: o harness não retenta chamadas diretas a
+`ctx.llm.stream()`, e declara isso. Então a compressão classifica o erro em
+transitório (retenta com backoff e jitter) e permanente (não retenta), trata contexto
+estourado dividindo o bloco em vez de repetir o pedido, e tem disjuntor — porque
+retentar uma credencial errada é queimar dinheiro sozinho
+([ADR-0008](docs/adr/0008-rota-e-erros-da-compressao.md)).
+
 ## Como funciona
 
 ```

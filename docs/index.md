@@ -41,7 +41,8 @@ Este diretório é a fonte de verdade do projeto. O código é consequência del
 | [0004](adr/0004-proveniencia-obrigatoria.md) | toda memória carrega proveniência obrigatória |
 | [0005](adr/0005-plugin-e-o-unico-escritor.md) | o plugin é o único escritor; a CLI opera em somente-leitura |
 | [0006](adr/0006-sem-embeddings-no-v1.md) | sem busca vetorial no v1; recall exato + navegação por árvore |
-| [0007](adr/0007-superficie-web.md) | superfície web: o que é entregue e o que fica fora |
+| [0007](adr/0007-superficie-web.md) | superfície web: pacote de duas faces com entrada no slot `conversation.view` |
+| [0008](adr/0008-rota-e-erros-da-compressao.md) | a compressão tem rota própria, e o tratamento de erro é nosso |
 
 ## Convenções
 

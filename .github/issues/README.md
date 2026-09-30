@@ -55,6 +55,7 @@ milestone: "M1 — Fundação"
 | 25 | [documentacao-de-release](25-documentacao-de-release.md) | M6 |
 | 26 | [publicacao-no-npm](26-publicacao-no-npm.md) | M6 |
 | 27 | [ledger-ao-vivo](27-ledger-ao-vivo.md) | M4 |
+| 28 | [rota-e-erros-da-compressao](28-rota-e-erros-da-compressao.md) | M3 |
 
 ## Milestones
 

@@ -101,30 +101,83 @@ fluxo de eventos: a lista completa de 100.000 memórias não pertence a um fluxo
 ### Seção "Custos"
 
 - orçamento configurado (`wake.budgetTokens`) e tokens da última injeção;
-- chamadas de compressão, tokens de entrada e de saída acumulados;
-- pendentes e degradados;
+- chamadas de compressão, tokens de entrada e de saída acumulados, **incluindo
+  tentativas fracassadas** — esconder o custo do retry seria esconder custo real;
+- a rota em uso (herdada da sessão ou explícita) e o effort;
+- pendentes e degradados, e o **estado do disjuntor** quando armado;
 - estado de saúde do store: `writer`/`reader`, `corrupt`, lacunas.
+
+## Ativação: instalado ≠ ativo
+
+São duas coisas diferentes, e a GUI precisa deixar isso explícito:
+
+| Estado | Onde vive | Quem controla | O que significa |
+|---|---|---|---|
+| **instalado e montado** | perfil (patch do Loader) | o usuário, no arquivo de perfil | o código carrega no host |
+| **ativo** | configuração do plugin | uma **chave na GUI** | a memória funciona |
+
+Um plugin pode estar montado e inativo: o usuário quer manter a memória no disco,
+mas não quer que o agente receba contexto dela agora — durante um trabalho sob
+confidencialidade diferente, durante um debug, ou enquanto ajusta a configuração.
+
+**Inativo significa, concretamente:**
+
+- nenhuma injeção em `agent/pre-step`, e `optmem/skip` com `reason = 'disabled'`;
+- nenhuma compressão, nenhuma chamada de LLM;
+- as tools respondem que o plugin está inativo, com a instrução de como ativar;
+- **o store não é tocado**: nada é apagado, nada é recomputado, nada é reescrito;
+- a aba continua acessível e mostra "inativo", em vez de parecer vazia.
+
+A chave de ativação é uma **configuração do plugin**, não uma mutação do Loader: a
+projeção do inventário de plugins do harness é explicitamente somente-leitura e não
+habilita nem desabilita nada. O que a GUI mostra do Loader é o estado de montagem; o
+que ela **controla** é a nossa chave.
+
+O padrão de interação é o do cartão de subagente (ver abaixo): a chave e as rotas
+são **estagiadas juntas** e gravadas em uma única mutação, cercada pela revisão em
+que o rascunho começou. Desativar **preserva** as rotas escolhidas para reuso.
 
 ## Configuração na GUI
 
 **A configuração não é renderizada automaticamente a partir do schema.** A aba de
 plugins despacha um slot por namespace, e um namespace que nenhum cartão reivindica
-**não renderiza nada** — os controles dos pacotes publicados são escritos à mão.
-Isso está verificado em [research/02](../research/02-client-web-kit.md) §4, e
-contraria a suposição confortável de que bastaria declarar `Config`.
+**não renderiza nada** — os controles dos pacotes publicados são escritos à mão
+([research/02](../research/02-client-web-kit.md) §4).
 
-O que existe a nosso favor: o `SettingsDescriptor.schema` **está no fio**, e há uma
-API de schema (reidratação, validação, acesso por caminho) que permite escrever um
-formulário genérico. Então o desenho é:
+O que existe a favor: o `SettingsDescriptor.schema` **está no fio**, e há API de
+schema (reidratação, validação, acesso por caminho). Então o desenho é: o plugin
+**entrega o próprio cartão**, e o formulário é **dirigido pelo schema** — cada campo
+com descrição e padrão vindos do schema, sem lista duplicada escrita à mão, que é o
+modo de falha real (schema e formulário divergindo).
 
-- O plugin **entrega o próprio cartão**, registrado sob o seu namespace.
-- O cartão é **genérico**, dirigido pelo schema: cada campo com descrição e padrão
-  vindos do schema, sem lista duplicada escrita à mão. Isso evita a divergência
-  entre schema e formulário, que é o modo de falha real.
-- Um controle deslizante para `wake.budgetTokens` com **estimativa viva** para o
-  store atual: o usuário vê a consequência antes de aplicar.
-- As demais opções são editáveis mas marcadas como "de instalação": mudá-las é uma
-  decisão de perfil, não de conversa.
+### Referência: o cartão de subagente
+
+O cartão `subagent-model-selection` é a referência de UI para a parte de modelo, e
+adotamos os comportamentos dele porque são a resposta para problemas que já
+apareceram:
+
+| Comportamento do cartão de subagente | Por que adotamos |
+|---|---|
+| Chave de permissão + modelos, **estagiados juntos** | evita o estado intermediário "ligado sem modelo" |
+| Salvar submete `enabled` e rotas em **uma** mutação, cercada pela revisão do rascunho | uma revisão nova do host marca o rascunho como falho em vez de restaurar uma rota revogada |
+| **Desativar preserva** as rotas | reativar não obriga a reconfigurar |
+| Modelos **agrupados por provedor** | o catálogo já vem assim |
+| Rotas salvas **ausentes do catálogo** aparecem no fim e continuam removíveis | o catálogo é consultivo; sumir da lista não invalida a escolha |
+| Nomes de adapter e descrições de modelo são **metadado vivo**, não armazenado; o cartão atualiza após mudanças de adapter, commits de settings e reconexões | descrição de modelo envelhece mal no disco |
+| Effort **derivado do modelo**; modelo sem metadado de raciocínio não mostra a linha; sem entrada livre | o harness rejeita effort não suportado sem clamp nem alias — oferecer texto livre seria oferecer uma configuração inválida |
+
+### O nosso cartão
+
+1. **Chave de ativação** (o "instalado ≠ ativo" acima).
+2. **Rota da compressão**: lista de modelos agrupada por provedor, com a opção
+   explícita **"herdar da sessão"** como primeiro item e padrão; effort derivado do
+   modelo escolhido. Ver [ADR-0008](../adr/0008-rota-e-erros-da-compressao.md).
+3. **Orçamento**: slider para `wake.budgetTokens` com **estimativa viva** para o
+   store atual, para que o usuário veja a consequência antes de aplicar.
+4. **Saúde e custo**: modo da compressão, pendentes, degradados, disjuntor armado ou
+   não, chamadas e tokens acumulados (incluindo tentativas fracassadas).
+5. As demais opções aparecem, mas marcadas como "de instalação": mudá-las é decisão
+   de perfil, não de conversa.
 
 ## i18n
 
@@ -188,6 +241,27 @@ metade host — é trabalho de v2 e está especificada como tal, não prometida 
 - **CA11.** Nenhuma string aparece hardcoded; as três locales estão completas.
 - **CA12.** O bundle de cliente é construído fora do monorepo do harness, e a
   receita está documentada no repositório o suficiente para ser reproduzida.
+- **CA13.** Desativar pela GUI faz a próxima sessão não receber injeção (verificado
+  em sessão nova) e **nenhum** arquivo do store mudar (hash e mtime do diretório
+  inteiro).
+- **CA14.** Desativar não apaga memória e não invalida resumo: reativar devolve o
+  comportamento anterior sem recompressão.
+- **CA15.** Desativado, uma tool de memória responde que o plugin está inativo e
+  como ativá-lo — não um erro genérico.
+- **CA16.** Desativar pela GUI interrompe a compressão em andamento e nenhuma
+  chamada de LLM nova acontece depois disso (verificado por contagem de chamadas).
+- **CA17.** A chave de ativação e a rota são gravadas em **uma** mutação: uma
+  revisão nova do host no meio marca o rascunho como falho, e não restaura uma rota
+  revogada.
+- **CA18.** A lista de modelos é agrupada por provedor, o effort muda quando o
+  modelo muda, e um modelo sem metadado de raciocínio **não** mostra a linha de
+  effort e **não** aceita effort por texto livre.
+- **CA19.** Uma rota salva que sumiu do catálogo aparece no fim da lista e continua
+  removível.
+- **CA20.** Com a rota herdada (padrão), a compressão usa o mesmo provider/model da
+  sessão — verificado no evento `optmem/compress`.
+- **CA21.** O cartão mostra o disjuntor armado quando a compressão foi desligada por
+  falhas permanentes, e o religar é uma ação explícita.
 
 ## Dependências de pesquisa
 

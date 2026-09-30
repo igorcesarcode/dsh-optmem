@@ -48,3 +48,6 @@ confirma não está fazendo o trabalho dele:
 | A convenção do harness é **dois pacotes** para host + cliente, sem aresta de dependência entre eles | o ADR-0007 decide por um pacote com as duas faces e deixa o protótipo arbitrar, em vez de assumir |
 | O bundle de cliente tem formato lazy-CJS com tabela semente de nove externos; `platform` precisa ser exatamente `"web"` ou o pacote é ignorado em silêncio | o protótipo (issue 19) tem um alvo concreto, não uma vaga "reproduzir o build" |
 | `dsh.bundle.patch` é o que faz `dsh plugin add` montar o pacote; `unwrapExports` é `exports.default ?? exports` | o manifesto e a forma de exportação viram critério de aceitação do scaffold (item 01) |
+| **`dsh-llm-retry` não cobre `ctx.llm.stream()` direto** — o README declara que esses consumidores ficam *single-attempt* | a compressão herda a responsabilidade de retry, backoff e taxonomia de erro (ADR-0008, spec 06) |
+| O catálogo de modelos é **consultivo** e o effort é validado contra o modelo, sem clamp nem alias; há `listModels` e `resolveModelInfo` | a escolha de modelo da compressão é validada antes do I/O e não aceita effort como texto livre (spec 11) |
+| A projeção do inventário de plugins é **somente-leitura** e não habilita nem desabilita nada | "instalado ≠ ativo" é uma configuração do plugin, não uma mutação do Loader (spec 11) |

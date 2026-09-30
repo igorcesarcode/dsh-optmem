@@ -87,16 +87,76 @@ custo de conversa em qualquer relatório de uso.
   de estado em memória do processo. Reiniciar o host não perde trabalho, apenas
   reenfileira.
 
-## Falhas
+## Rota da compressão
+
+A compressão **não** usa necessariamente o modelo da conversa. Ela tem rota própria
+(ADR-0008), porque é o único lugar do sistema que gasta dinheiro em escala e porque
+o trabalho — condensar uma linha a partir de texto já no contexto, sob contrato
+explícito — exige menos do modelo que a conversa.
+
+```jsonc
+{
+  "provider": "deepseek",        // vazio = herda a rota da sessão
+  "model": "deepseek-chat",      // vazio = herda
+  "reasoning_effort": "low"      // vazio = o padrão do modelo escolhido
+}
+```
+
+Regras:
+
+- **Vazio herda a sessão.** Sem configuração, o comportamento é o que não
+  surpreende: a memória é comprimida pelo mesmo modelo que está conversando.
+- **Provider e model andam juntos.** Um sem o outro é configuração inválida,
+  rejeitada na leitura, não em runtime.
+- **Trocar a rota sem informar effort limpa o effort da rota anterior** — o effort
+  pertence à rota, não ao plugin. Manter um effort que pertencia a outro modelo
+  seria aceitar uma configuração que o harness vai rejeitar depois.
+- **Effort é validado contra o modelo**, nunca texto livre: as opções vêm do
+  metadado de raciocínio do modelo resolvido. Effort não suportado é rejeitado
+  **antes** de qualquer I/O de provedor, sem clamp e sem alias. Modelo sem metadado
+  de raciocínio simplesmente não oferece effort.
+- **O catálogo é consultivo, não autoritativo.** Um modelo que o adapter serve mas
+  não anuncia continua configurável; a lista da GUI apenas o mostra no fim, como as
+  rotas salvas que sumiram do catálogo.
+
+## Tratamento de erro de API
+
+**O harness não retenta chamadas diretas a `ctx.llm.stream()`** — o
+`dsh-llm-retry` só cobre o limite do passo durável do agente, e declara isso. Como a
+compressão chama o stream direto (ADR-0002), retry, backoff e taxonomia são
+**nossos**.
+
+| Classe | Códigos | Ação |
+|---|---|---|
+| **Transitório** | `RATE_LIMIT`, `TIMEOUT`, `TRANSPORT`, `SERVER`, `EMPTY_RESPONSE` | retenta com backoff exponencial e jitter |
+| **Permanente** | `AUTH`, `NO_ADAPTER`, modelo/effort inválido, conteúdo não suportado | **não retenta**; marca e reporta |
+| **Entrada grande demais** | `CONTEXT_WINDOW_EXCEEDED` | **divide o bloco** nos dois filhos e enfileira, em vez de repetir o mesmo pedido |
+
+- **Disjuntor.** Após N falhas permanentes consecutivas, a compressão **desliga** e
+  avisa na GUI. Retentar `AUTH` com credencial errada é queimar dinheiro sozinho. O
+  religar é explícito, nunca automático por tempo — religar sozinho depois de uma
+  credencial errada só repete o erro.
+- **Retry é seguro por construção.** A gravação é append-only e o job desiste se o
+  bloco já foi comprimido; uma tentativa que chega depois de um sucesso alheio não
+  duplica nada.
+- **Vocabulário do harness.** `initialDelayMs`, `maxDelayMs`, `jitterRatio`,
+  `maxAttempts` — os mesmos nomes do `retryPolicy` do provedor, porque é o que o
+  usuário já viu.
+- **Custo de tentativa fracassada conta.** Tokens de chamadas que falharam entram no
+  acumulado. Esconder isso seria esconder o custo que o ADR-0002 prometeu tornar
+  visível.
+- **Nada chega ao loop do agente.** O agente nunca vê um erro de API por causa da
+  memória.
+
+Outras falhas, não de API:
 
 | Falha | Comportamento |
 |---|---|
-| Sem provedor de LLM configurado | cai para `compression.mode = 'agent'` com aviso; `wake` continua funcionando com lacunas |
-| Erro de rede/provedor | retry com backoff exponencial; teto de tentativas |
+| Sem provedor de LLM configurado | cai para `compression.mode = 'agent'` com aviso; `wake` segue com lacunas |
 | Resposta longa demais | trunca no teto da linha, registra que truncou |
-| Resposta vazia ou só whitespace | trata como falha, retenta |
+| Resposta vazia ou só whitespace | transitório: retenta |
 | Teto de tentativas atingido | bloco vira `degraded`; não é retentado até um `forget` explícito |
-| Custo do job acima de `compression.maxJobTokens` | job aborta antes de chamar, bloco fica pendente |
+| Custo do job acima de `compression.maxJobTokens` | job aborta **antes** de chamar; bloco fica pendente |
 
 Nenhuma dessas falhas lança no loop do agente. Todas são registradas.
 
@@ -116,12 +176,19 @@ sem instrumentar nada (M6).
 
 | Config | Padrão | Significado |
 |---|---|---|
+| `compression.enabled` | `true` | liga a compressão (chave de ativação, ver spec 11) |
 | `compression.mode` | `'background'` | `background` \| `agent` \| `off` |
 | `compression.lazy` | `true` | só o que a cobertura precisa |
 | `compression.rawWindow` | `16` | acima disso, comprime de resumos |
+| `compression.route.provider` | `''` | vazio = herda a rota da sessão |
+| `compression.route.model` | `''` | vazio = herda a rota da sessão |
+| `compression.route.reasoning_effort` | `''` | vazio = padrão do modelo escolhido |
+| `compression.retry.initialDelayMs` | `1000` | primeiro atraso do backoff |
+| `compression.retry.maxDelayMs` | `30000` | teto do atraso |
+| `compression.retry.jitterRatio` | `0.2` | fração de jitter |
+| `compression.retry.maxAttempts` | `3` | tentativas antes de `degraded` |
+| `compression.retry.breakerAfter` | `5` | falhas permanentes consecutivas antes de desligar |
 | `compression.maxJobTokens` | `4000` | teto de entrada por job |
-| `compression.maxAttempts` | `3` | tentativas antes de `degraded` |
-| `compression.model` | herda o da sessão | modelo usado na compressão |
 | `compression.maxBlocksPerRun` | `8` | teto de blocos por execução do job |
 
 ## Evidência
