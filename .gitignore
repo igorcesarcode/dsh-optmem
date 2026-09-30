@@ -1,0 +1,13 @@
+node_modules/
+dist/
+lib/
+coverage/
+*.tsbuildinfo
+
+# Local memory stores used by tests and manual runs
+.optmem-test/
+*.log
+
+.DS_Store
+.idea/
+.vscode/
